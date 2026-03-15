@@ -68,6 +68,16 @@
 - All components use Material3 and follow app theme
 - **Commit:** `bc7f649` - Add UI components
 
+### Task 9: Create Main Screens ✅
+- Created `ui/screens/HomeScreen.kt` - Today's salahs with Hijri date
+- Created `ui/screens/CalendarScreen.kt` - Monthly calendar with navigation
+- Created `ui/screens/DayDetailScreen.kt` - Selected day details view
+- Created `ui/screens/StatsScreen.kt` - Statistics and averages
+- Created `ui/screens/SettingsScreen.kt` - Dark mode toggle
+- Created `ui/screens/ScreenPreviews.kt` - Compose preview functions for testing
+- All screens use Material3, follow app theme, and integrate with components
+- **Commit:** TBD - Add main screens
+
 ---
 
 ## 📂 Current File Structure
@@ -104,6 +114,13 @@ Rate My Salah/
 │   │   │       │   ├── RatingDialog.kt ✅
 │   │   │       │   ├── CalendarGrid.kt ✅
 │   │   │       │   └── BottomNavBar.kt ✅
+│   │   │       ├── screens/
+│   │   │       │   ├── HomeScreen.kt ✅
+│   │   │       │   ├── CalendarScreen.kt ✅
+│   │   │       │   ├── DayDetailScreen.kt ✅
+│   │   │       │   ├── StatsScreen.kt ✅
+│   │   │       │   ├── SettingsScreen.kt ✅
+│   │   │       │   └── ScreenPreviews.kt ✅
 │   │   │       └── theme/
 │   │   │       ├── Color.kt ✅
 │   │   │       ├── Theme.kt ✅
@@ -142,23 +159,17 @@ ae0bc79 Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
 
 ## 🚧 Next Tasks (Remaining from Original Plan)
 
-### Task 9: Create Main Screens ⏳ NEXT
+### Task 10: Setup Navigation ⏳ NEXT
 **Files to create:**
-1. `ui/screens/HomeScreen.kt` - Today's salahs
-2. `ui/screens/CalendarScreen.kt` - Monthly view
-3. `ui/screens/DayDetailScreen.kt` - Selected day details
-4. `ui/screens/StatsScreen.kt` - Statistics view
-5. `ui/screens/SettingsScreen.kt` - Dark mode toggle
+1. `navigation/NavGraph.kt` - Navigation routes and graph
+2. Update `MainActivity.kt` - Wire up navigation and ViewModel
 
-**Dependencies:** All data layer + ViewModel + UI components complete ✅
+**Dependencies:** All screens and components complete ✅
 
-### Task 9: Create Main Screens
+### Task 10: Setup Navigation
 **Files to create:**
-1. `ui/screens/HomeScreen.kt` - Today's prayers
-2. `ui/screens/CalendarScreen.kt` - Monthly view
-3. `ui/screens/DayDetailScreen.kt` - Selected day details
-4. `ui/screens/StatsScreen.kt` - Statistics view
-5. `ui/screens/SettingsScreen.kt` - Dark mode toggle
+1. `navigation/NavGraph.kt` - Navigation routes and graph
+2. Update `MainActivity.kt` - Wire up navigation and ViewModel
 
 ### Task 10: Setup Navigation
 **Files to create:**
@@ -270,11 +281,12 @@ activity-compose:1.8.2
 - ✅ ViewModel layer complete
 - ✅ Utils created (Constants, DateUtils)
 - ✅ UI Components created (SalahCard, RatingDialog, CalendarGrid, BottomNavBar)
-- ❌ UI Screens - Not started
+-  ✅ UI Screens created (Home, Calendar, DayDetail, Stats, Settings)
 - ❌ Navigation - Not started
+- ❌ MainActivity integration - Not started
 
 ### Ready to Resume:
-Start with **Task 9** (Main Screens). All data, ViewModel, and UI components are complete. Follow the step-by-step task breakdown from the original plan.
+Start with **Task 10** (Navigation & Integration). All screens and components are complete. Follow the step-by-step task breakdown from the original plan.
 
 ### Testing Strategy:
 - No unit tests written yet
@@ -293,6 +305,6 @@ Start with **Task 9** (Main Screens). All data, ViewModel, and UI components are
 
 ---
 
-**Last Updated:** Task 8 Complete (UI Components Created)  
-**Next Action:** Proceed to Task 9 (Create Main Screens)  
+**Last Updated:** Task 9 Complete (Main Screens Created)  
+**Next Action:** Proceed to Task 10 (Setup Navigation & MainActivity Integration)  
 **Status:** 🟢 Ready to continue development
