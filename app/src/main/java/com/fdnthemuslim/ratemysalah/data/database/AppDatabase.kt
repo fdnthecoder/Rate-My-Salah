@@ -1,15 +1,15 @@
-package com.fdnthemuslim.ratemyprayer.data.database
+package com.fdnthemuslim.ratemysalah.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.fdnthemuslim.ratemyprayer.data.converters.Converters
-import com.fdnthemuslim.ratemyprayer.data.dao.AppSettingsDao
-import com.fdnthemuslim.ratemyprayer.data.dao.PrayerLogDao
-import com.fdnthemuslim.ratemyprayer.data.entity.AppSettings
-import com.fdnthemuslim.ratemyprayer.data.entity.PrayerLog
+import com.fdnthemuslim.ratemysalah.data.converters.Converters
+import com.fdnthemuslim.ratemysalah.data.dao.AppSettingsDao
+import com.fdnthemuslim.ratemysalah.data.dao.PrayerLogDao
+import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
+import com.fdnthemuslim.ratemysalah.data.entity.PrayerLog
 
 @Database(
     entities = [PrayerLog::class, AppSettings::class],

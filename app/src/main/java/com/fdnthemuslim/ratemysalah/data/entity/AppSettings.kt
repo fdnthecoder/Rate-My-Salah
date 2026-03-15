@@ -1,4 +1,4 @@
-package com.fdnthemuslim.ratemyprayer.data.entity
+package com.fdnthemuslim.ratemysalah.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

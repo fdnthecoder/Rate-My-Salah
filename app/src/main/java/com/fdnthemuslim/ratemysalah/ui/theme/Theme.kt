@@ -1,4 +1,4 @@
-package com.fdnthemuslim.ratemyprayer.ui.theme
+package com.fdnthemuslim.ratemysalah.ui.theme
 
 import android.app.Activity
 import android.os.Build
