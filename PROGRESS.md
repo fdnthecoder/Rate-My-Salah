@@ -76,7 +76,7 @@
 - Created `ui/screens/SettingsScreen.kt` - Dark mode toggle
 - Created `ui/screens/ScreenPreviews.kt` - Compose preview functions for testing
 - All screens use Material3, follow app theme, and integrate with components
-- **Commit:** TBD - Add main screens
+- **Commit:** `6968ca9` - Add main screens
 
 ---
 
@@ -143,7 +143,9 @@ Rate My Salah/
 ## 🔄 Git History
 
 ```
-bc7f649 (HEAD -> main, origin/main) Add UI components: SalahCard, RatingDialog, CalendarGrid, BottomNavBar (Task 8)
+6968ca9 (HEAD -> main, origin/main) Add main screens: Home, Calendar, DayDetail, Stats, Settings (Task 9)
+fc48174 Update PROGRESS.md with Task 8 commit hash and git history
+bc7f649 Add UI components: SalahCard, RatingDialog, CalendarGrid, BottomNavBar (Task 8)
 21aeda8 Update PROGRESS.md with Task 7 completion details
 ae0bc79 Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
 5116851 Add development progress tracker documentation
