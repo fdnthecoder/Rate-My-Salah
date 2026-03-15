@@ -1,7 +1,7 @@
-package com.yourname.ratemysalah.data.dao
+package com.fdnthemuslim.ratemyprayer.data.dao
 
 import androidx.room.*
-import com.yourname.ratemysalah.data.entity.PrayerLog
+import com.fdnthemuslim.ratemyprayer.data.entity.PrayerLog
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 

@@ -1,9 +1,9 @@
-package com.yourname.ratemysalah.data.repository
+package com.fdnthemuslim.ratemyprayer.data.repository
 
-import com.yourname.ratemysalah.data.dao.AppSettingsDao
-import com.yourname.ratemysalah.data.dao.PrayerLogDao
-import com.yourname.ratemysalah.data.entity.AppSettings
-import com.yourname.ratemysalah.data.entity.PrayerLog
+import com.fdnthemuslim.ratemyprayer.data.dao.AppSettingsDao
+import com.fdnthemuslim.ratemyprayer.data.dao.PrayerLogDao
+import com.fdnthemuslim.ratemyprayer.data.entity.AppSettings
+import com.fdnthemuslim.ratemyprayer.data.entity.PrayerLog
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 

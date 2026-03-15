@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.fdnthemuslim.ratemysalah"
+    namespace = "com.fdnthemuslim.ratemyprayer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.fdnthemuslim.ratemysalah"
+        applicationId = "com.fdnthemuslim.ratemyprayer"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

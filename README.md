@@ -1,4 +1,4 @@
-# Rate My Salah
+# Rate My Prayer
 
 An Android app for Muslims to rate and track their daily prayer quality.
 

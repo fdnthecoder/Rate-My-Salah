@@ -1,4 +1,4 @@
-package com.yourname.ratemysalah.ui.theme
+package com.fdnthemuslim.ratemyprayer.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

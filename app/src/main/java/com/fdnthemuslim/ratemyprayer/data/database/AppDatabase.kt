@@ -1,15 +1,15 @@
-package com.yourname.ratemysalah.data.database
+package com.fdnthemuslim.ratemyprayer.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.yourname.ratemysalah.data.converters.Converters
-import com.yourname.ratemysalah.data.dao.AppSettingsDao
-import com.yourname.ratemysalah.data.dao.PrayerLogDao
-import com.yourname.ratemysalah.data.entity.AppSettings
-import com.yourname.ratemysalah.data.entity.PrayerLog
+import com.fdnthemuslim.ratemyprayer.data.converters.Converters
+import com.fdnthemuslim.ratemyprayer.data.dao.AppSettingsDao
+import com.fdnthemuslim.ratemyprayer.data.dao.PrayerLogDao
+import com.fdnthemuslim.ratemyprayer.data.entity.AppSettings
+import com.fdnthemuslim.ratemyprayer.data.entity.PrayerLog
 
 @Database(
     entities = [PrayerLog::class, AppSettings::class],
@@ -30,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "rate_my_salah_database"
+                    "rate_my_prayer_database"
                 ).build()
                 INSTANCE = instance
                 instance

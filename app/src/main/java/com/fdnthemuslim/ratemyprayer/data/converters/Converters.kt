@@ -1,4 +1,4 @@
-package com.yourname.ratemysalah.data.converters
+package com.fdnthemuslim.ratemyprayer.data.converters
 
 import androidx.room.TypeConverter
 import java.time.LocalDate

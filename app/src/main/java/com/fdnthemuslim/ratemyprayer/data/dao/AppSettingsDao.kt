@@ -1,7 +1,7 @@
-package com.yourname.ratemysalah.data.dao
+package com.fdnthemuslim.ratemyprayer.data.dao
 
 import androidx.room.*
-import com.yourname.ratemysalah.data.entity.AppSettings
+import com.fdnthemuslim.ratemyprayer.data.entity.AppSettings
 import kotlinx.coroutines.flow.Flow
 
 @Dao
