@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- TODO: Add rules to control what gets backed up
+    <include domain="file" path="."/>
+    -->
+</full-backup-content>
