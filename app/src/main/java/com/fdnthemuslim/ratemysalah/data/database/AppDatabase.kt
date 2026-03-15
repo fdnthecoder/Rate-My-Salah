@@ -7,18 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fdnthemuslim.ratemysalah.data.converters.Converters
 import com.fdnthemuslim.ratemysalah.data.dao.AppSettingsDao
-import com.fdnthemuslim.ratemysalah.data.dao.PrayerLogDao
+import com.fdnthemuslim.ratemysalah.data.dao.SalahLogDao
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
-import com.fdnthemuslim.ratemysalah.data.entity.PrayerLog
+import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
 
 @Database(
-    entities = [PrayerLog::class, AppSettings::class],
+    entities = [SalahLog::class, AppSettings::class],
     version = 1,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun prayerLogDao(): PrayerLogDao
+    abstract fun salahLogDao(): SalahLogDao
     abstract fun appSettingsDao(): AppSettingsDao
     
     companion object {

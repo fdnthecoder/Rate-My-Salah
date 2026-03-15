@@ -49,6 +49,17 @@
 - Moved directory structure to correct package path
 - **Commit:** `630db3e` - Refactor package name
 
+### Task 7: Refactor to Salah Naming + Utils & ViewModel ✅
+- Refactored all "Prayer" naming to "Salah" throughout codebase
+- Renamed `PrayerLog` → `SalahLog` (entity)
+- Renamed `PrayerLogDao` → `SalahLogDao` (DAO)
+- Renamed `PrayerRepository` → `SalahRepository` (repository)
+- Updated database table name: `prayer_logs` → `salah_logs`
+- Created `utils/Constants.kt` (Salah names, color constants)
+- Created `utils/DateUtils.kt` (Hijri/Gregorian conversion helpers)
+- Created `viewmodel/SalahViewModel.kt` (Main ViewModel with StateFlow)
+- **Commit:** TBD - Refactor Prayer to Salah naming + Add Utils and ViewModel
+
 ---
 
 ## 📂 Current File Structure
@@ -63,17 +74,22 @@ Rate My Salah/
 │   │   │   ├── MainActivity.kt
 │   │   │   ├── data/
 │   │   │   │   ├── entity/
-│   │   │   │   │   ├── PrayerLog.kt ✅
+│   │   │   │   │   ├── SalahLog.kt ✅
 │   │   │   │   │   └── AppSettings.kt ✅
 │   │   │   │   ├── dao/
-│   │   │   │   │   ├── PrayerLogDao.kt ✅
+│   │   │   │   │   ├── SalahLogDao.kt ✅
 │   │   │   │   │   └── AppSettingsDao.kt ✅
 │   │   │   │   ├── converters/
 │   │   │   │   │   └── Converters.kt ✅
 │   │   │   │   ├── database/
 │   │   │   │   │   └── AppDatabase.kt ✅
 │   │   │   │   └── repository/
-│   │   │   │       └── PrayerRepository.kt ✅
+│   │   │   │       └── SalahRepository.kt ✅
+│   │   │   ├── utils/
+│   │   │   │   ├── Constants.kt ✅
+│   │   │   │   └── DateUtils.kt ✅
+│   │   │   ├── viewmodel/
+│   │   │   │   └── SalahViewModel.kt ✅
 │   │   │   └── ui/theme/
 │   │   │       ├── Color.kt ✅
 │   │   │       ├── Theme.kt ✅
@@ -87,6 +103,7 @@ Rate My Salah/
 ├── settings.gradle.kts ✅
 ├── gradle.properties ✅
 ├── README.md ✅
+├── PROGRESS.md ✅
 └── .gitignore ✅
 ```
 
@@ -107,20 +124,14 @@ Rate My Salah/
 
 ## 🚧 Next Tasks (Remaining from Original Plan)
 
-### Task 7: Create Utils & ViewModel ⏳ NEXT
+### Task 8: Create UI Components ⏳ NEXT
 **Files to create:**
-1. `utils/Constants.kt` - Prayer names, color constants
-2. `utils/DateUtils.kt` - Hijri/Gregorian conversion helpers
-3. `viewmodel/PrayerViewModel.kt` - Main ViewModel with StateFlow
-
-**Dependencies:** All data layer complete ✅
-
-### Task 8: Create UI Components
-**Files to create:**
-1. `ui/components/PrayerCard.kt` - Display prayer with rating
-2. `ui/components/RatingDialog.kt` - Rate prayer dialog
+1. `ui/components/SalahCard.kt` - Display salah with rating
+2. `ui/components/RatingDialog.kt` - Rate salah dialog
 3. `ui/components/CalendarGrid.kt` - Monthly calendar view
 4. `ui/components/BottomNavBar.kt` - Navigation bar
+
+**Dependencies:** All data layer + ViewModel complete ✅
 
 ### Task 9: Create Main Screens
 **Files to create:**
@@ -237,12 +248,13 @@ activity-compose:1.8.2
 ### Current State:
 - ✅ Data layer fully implemented
 - ✅ Database structure finalized
-- ⏳ ViewModel layer - READY TO START (Task 7)
+- ✅ ViewModel layer complete
+- ✅ Utils created (Constants, DateUtils)
 - ❌ UI layer - Not started
 - ❌ Navigation - Not started
 
 ### Ready to Resume:
-Start with **Task 7** (Utils & ViewModel). All code provided in original documentation. Follow the step-by-step task breakdown from the original plan.
+Start with **Task 8** (UI Components). All data and ViewModel code is complete. Follow the step-by-step task breakdown from the original plan.
 
 ### Testing Strategy:
 - No unit tests written yet
@@ -255,12 +267,12 @@ Start with **Task 7** (Utils & ViewModel). All code provided in original documen
 
 - **GitHub Repo:** https://github.com/fdnthecoder/Rate-My-Salah
 - **Original Doc:** Project documentation with 20-task breakdown
-- **Prayer Names:** Fajr, Dhuhr, Asr, Maghrib, Isha (fixed order)
+- **Salah Names:** Fajr, Dhuhr, Asr, Maghrib, Isha (fixed order)
 - **Rating Scale:** 1-10 integer scale
 - **Hijri Calendar:** Uses Java HijrahDate (built-in)
 
 ---
 
-**Last Updated:** Task 6 Complete (Package Refactoring)  
-**Next Action:** Proceed to Task 7 (Create Utils & ViewModel)  
+**Last Updated:** Task 7 Complete (Salah Naming Refactor + Utils & ViewModel)  
+**Next Action:** Proceed to Task 8 (Create UI Components)  
 **Status:** 🟢 Ready to continue development
