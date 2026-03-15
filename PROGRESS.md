@@ -66,7 +66,7 @@
 - Created `ui/components/CalendarGrid.kt` - Monthly calendar view with color coding
 - Created `ui/components/BottomNavBar.kt` - Bottom navigation bar
 - All components use Material3 and follow app theme
-- **Commit:** TBD - Add UI components
+- **Commit:** `bc7f649` - Add UI components
 
 ---
 
@@ -126,7 +126,9 @@ Rate My Salah/
 ## 🔄 Git History
 
 ```
-ae0bc79 (HEAD -> main, origin/main) Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
+bc7f649 (HEAD -> main, origin/main) Add UI components: SalahCard, RatingDialog, CalendarGrid, BottomNavBar (Task 8)
+21aeda8 Update PROGRESS.md with Task 7 completion details
+ae0bc79 Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
 5116851 Add development progress tracker documentation
 630db3e Refactor: Update package to com.fdnthemuslim.ratemysalah and app name to Rate My Prayer (Task 6)
 697c078 Refactor: Update package to com.fdnthemuslim.ratemyprayer and app name to Rate My Prayer (Task 6)
