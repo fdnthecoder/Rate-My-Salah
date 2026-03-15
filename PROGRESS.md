@@ -58,7 +58,7 @@
 - Created `utils/Constants.kt` (Salah names, color constants)
 - Created `utils/DateUtils.kt` (Hijri/Gregorian conversion helpers)
 - Created `viewmodel/SalahViewModel.kt` (Main ViewModel with StateFlow)
-- **Commit:** TBD - Refactor Prayer to Salah naming + Add Utils and ViewModel
+- **Commit:** `ae0bc79` - Refactor Prayer to Salah naming + Add Utils and ViewModel
 
 ---
 
@@ -112,8 +112,10 @@ Rate My Salah/
 ## 🔄 Git History
 
 ```
-630db3e (HEAD -> main, origin/main) Refactor: Update package to com.fdnthemuslim.ratemysalah
-697c078 Refactor: Update package to com.fdnthemuslim.ratemyprayer
+ae0bc79 (HEAD -> main, origin/main) Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
+5116851 Add development progress tracker documentation
+630db3e Refactor: Update package to com.fdnthemuslim.ratemysalah and app name to Rate My Prayer (Task 6)
+697c078 Refactor: Update package to com.fdnthemuslim.ratemyprayer and app name to Rate My Prayer (Task 6)
 037fbc6 Add Room database, type converters, and repository (Task 4)
 82ac4b5 Add README
 15a7b3f Add AppSettings entity and DAOs (Task 3)
