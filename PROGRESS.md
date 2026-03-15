@@ -60,6 +60,14 @@
 - Created `viewmodel/SalahViewModel.kt` (Main ViewModel with StateFlow)
 - **Commit:** `ae0bc79` - Refactor Prayer to Salah naming + Add Utils and ViewModel
 
+### Task 8: Create UI Components ✅
+- Created `ui/components/SalahCard.kt` - Display salah with rating
+- Created `ui/components/RatingDialog.kt` - Rate salah dialog
+- Created `ui/components/CalendarGrid.kt` - Monthly calendar view with color coding
+- Created `ui/components/BottomNavBar.kt` - Bottom navigation bar
+- All components use Material3 and follow app theme
+- **Commit:** TBD - Add UI components
+
 ---
 
 ## 📂 Current File Structure
@@ -90,7 +98,13 @@ Rate My Salah/
 │   │   │   │   └── DateUtils.kt ✅
 │   │   │   ├── viewmodel/
 │   │   │   │   └── SalahViewModel.kt ✅
-│   │   │   └── ui/theme/
+│   │   │   └── ui/
+│   │   │       ├── components/
+│   │   │       │   ├── SalahCard.kt ✅
+│   │   │       │   ├── RatingDialog.kt ✅
+│   │   │       │   ├── CalendarGrid.kt ✅
+│   │   │       │   └── BottomNavBar.kt ✅
+│   │   │       └── theme/
 │   │   │       ├── Color.kt ✅
 │   │   │       ├── Theme.kt ✅
 │   │   │       └── Type.kt ✅
@@ -126,14 +140,15 @@ ae0bc79 (HEAD -> main, origin/main) Refactor Prayer to Salah naming + Add Utils 
 
 ## 🚧 Next Tasks (Remaining from Original Plan)
 
-### Task 8: Create UI Components ⏳ NEXT
+### Task 9: Create Main Screens ⏳ NEXT
 **Files to create:**
-1. `ui/components/SalahCard.kt` - Display salah with rating
-2. `ui/components/RatingDialog.kt` - Rate salah dialog
-3. `ui/components/CalendarGrid.kt` - Monthly calendar view
-4. `ui/components/BottomNavBar.kt` - Navigation bar
+1. `ui/screens/HomeScreen.kt` - Today's salahs
+2. `ui/screens/CalendarScreen.kt` - Monthly view
+3. `ui/screens/DayDetailScreen.kt` - Selected day details
+4. `ui/screens/StatsScreen.kt` - Statistics view
+5. `ui/screens/SettingsScreen.kt` - Dark mode toggle
 
-**Dependencies:** All data layer + ViewModel complete ✅
+**Dependencies:** All data layer + ViewModel + UI components complete ✅
 
 ### Task 9: Create Main Screens
 **Files to create:**
@@ -252,11 +267,12 @@ activity-compose:1.8.2
 - ✅ Database structure finalized
 - ✅ ViewModel layer complete
 - ✅ Utils created (Constants, DateUtils)
-- ❌ UI layer - Not started
+- ✅ UI Components created (SalahCard, RatingDialog, CalendarGrid, BottomNavBar)
+- ❌ UI Screens - Not started
 - ❌ Navigation - Not started
 
 ### Ready to Resume:
-Start with **Task 8** (UI Components). All data and ViewModel code is complete. Follow the step-by-step task breakdown from the original plan.
+Start with **Task 9** (Main Screens). All data, ViewModel, and UI components are complete. Follow the step-by-step task breakdown from the original plan.
 
 ### Testing Strategy:
 - No unit tests written yet
@@ -275,6 +291,6 @@ Start with **Task 8** (UI Components). All data and ViewModel code is complete. 
 
 ---
 
-**Last Updated:** Task 7 Complete (Salah Naming Refactor + Utils & ViewModel)  
-**Next Action:** Proceed to Task 8 (Create UI Components)  
+**Last Updated:** Task 8 Complete (UI Components Created)  
+**Next Action:** Proceed to Task 9 (Create Main Screens)  
 **Status:** 🟢 Ready to continue development
