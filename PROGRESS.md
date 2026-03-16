@@ -100,7 +100,23 @@
 - Updated Gradle to 8.5 for Java 21 compatibility
 - Added `material-icons-extended` dependency for missing UI icons
 - Fixed `AndroidManifest.xml` by removing missing mipmap references
+- Added gradle-wrapper.jar for Gradle 8.5
+- Created comprehensive TESTING.md manual
 - Successfully built and verified project
+- **Commit:** `fa559ae` - Task 11: Fix build issues and add testing documentation
+
+### Task 12: Build APK for Phone Installation ✅
+- Fixed Gradle wrapper (downloaded correct gradle-wrapper.jar for 8.5)
+- Successfully built debug APK using `./gradlew assembleDebug`
+- APK size: 15 MB
+- Copied APK to Desktop as `RateMySalah.apk` for easy access
+- Created `INSTALL_ON_PHONE.md` with comprehensive installation guide:
+  - USB debugging and direct install methods
+  - File transfer options (Google Drive, email, messaging apps)
+  - HTTP server method for local network transfer
+  - Security warning handling
+  - Troubleshooting common installation issues
+- APK ready for installation on Android devices (API 24+)
 - **Commit:** [Pending]
 
 ---
@@ -191,16 +207,17 @@ ae0bc79 Refactor Prayer to Salah naming + Add Utils and SalahViewModel (Task 7)
 
 ## 🚧 Next Tasks (Remaining from Original Plan)
 
-### Task 12: Final Polish & Testing ⏳ NEXT
+### Task 13: Final Polish & Testing ⏳ NEXT
 **Activities:**
-- Test all features thoroughly
+- Test all features on physical device
 - Add error handling
 - Polish UI/UX
-- Fix any bugs
+- Fix any bugs discovered during testing
 - Add animations (optional)
 - Performance optimization
+- Prepare for Production Release (signed APK)
 
-**Status:** Initial build issues resolved. Ready for further polish.
+**Status:** Debug APK ready for testing on phone. App fully functional and ready for manual testing.
 
 ---
 
