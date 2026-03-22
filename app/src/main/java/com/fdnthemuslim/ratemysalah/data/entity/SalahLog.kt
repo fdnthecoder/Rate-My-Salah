@@ -5,7 +5,10 @@ import androidx.room.PrimaryKey
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@Entity(tableName = "salah_logs")
+@Entity(
+    tableName = "salah_logs",
+    indices = [androidx.room.Index(value = ["date", "salahName"], unique = true)]
+)
 data class SalahLog(
     @PrimaryKey(autoGenerate = true) 
     val id: Int = 0,

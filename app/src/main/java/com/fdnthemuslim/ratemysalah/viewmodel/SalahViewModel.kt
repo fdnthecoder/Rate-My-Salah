@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
-import com.fdnthemuslim.ratemysalah.data.repository.SalahRepository
+import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 import com.fdnthemuslim.ratemysalah.utils.Constants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-class SalahViewModel(private val repository: SalahRepository) : ViewModel() {
+class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
     
     private val _salahsForToday = MutableStateFlow<List<SalahLog>>(emptyList())
     val salahsForToday: StateFlow<List<SalahLog>> = _salahsForToday.asStateFlow()
@@ -69,6 +69,7 @@ class SalahViewModel(private val repository: SalahRepository) : ViewModel() {
     }
     
     fun saveSalahLog(date: LocalDate, salahName: String, rating: Int, notes: String?) {
+        if (date.isAfter(LocalDate.now())) return // Block saving for future dates
         viewModelScope.launch {
             val salahLog = SalahLog(
                 date = date,
@@ -78,14 +79,22 @@ class SalahViewModel(private val repository: SalahRepository) : ViewModel() {
                 loggedAt = LocalDateTime.now()
             )
             repository.insertSalahLog(salahLog)
+            
+            // Reload relevant states immediately to ensure UI update
             loadTodaySalahs()
+            loadSalahsForDate(date)
+            loadSalahsForMonth(date)
         }
     }
     
     fun deleteSalahLog(salahLog: SalahLog) {
         viewModelScope.launch {
             repository.deleteSalahLog(salahLog)
+            
+            // Reload relevant states immediately
             loadTodaySalahs()
+            loadSalahsForDate(salahLog.date)
+            loadSalahsForMonth(salahLog.date)
         }
     }
     

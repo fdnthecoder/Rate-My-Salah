@@ -2,10 +2,10 @@ package com.fdnthemuslim.ratemysalah.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.fdnthemuslim.ratemysalah.data.repository.SalahRepository
+import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 
 class SalahViewModelFactory(
-    private val repository: SalahRepository
+    private val repository: ISalahRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SalahViewModel::class.java)) {

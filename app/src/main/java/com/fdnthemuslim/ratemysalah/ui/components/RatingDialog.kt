@@ -16,7 +16,8 @@ fun RatingDialog(
     currentRating: Int?,
     currentNotes: String?,
     onDismiss: () -> Unit,
-    onSave: (rating: Int, notes: String?) -> Unit
+    onSave: (rating: Int, notes: String?) -> Unit,
+    enabled: Boolean = true
 ) {
     var rating by remember { mutableStateOf(currentRating?.toString() ?: "") }
     var notes by remember { mutableStateOf(currentNotes ?: "") }
@@ -73,11 +74,11 @@ fun RatingDialog(
                     Button(
                         onClick = {
                             val ratingInt = rating.toIntOrNull()
-                            if (ratingInt != null && ratingInt in 1..10) {
+                            if (enabled && ratingInt != null && ratingInt in 1..10) {
                                 onSave(ratingInt, notes.ifEmpty { null })
                             }
                         },
-                        enabled = rating.toIntOrNull()?.let { it in 1..10 } == true
+                        enabled = enabled && rating.toIntOrNull()?.let { it in 1..10 } == true
                     ) {
                         Text("Save")
                     }

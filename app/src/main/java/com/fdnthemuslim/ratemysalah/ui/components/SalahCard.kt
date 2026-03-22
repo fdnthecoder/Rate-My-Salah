@@ -14,6 +14,7 @@ fun SalahCard(
     salahName: String,
     salahLog: SalahLog?,
     onRateClick: () -> Unit,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -59,7 +60,8 @@ fun SalahCard(
             
             Button(
                 onClick = onRateClick,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 8.dp),
+                enabled = enabled
             ) {
                 Text(if (salahLog != null) "Edit" else "Rate")
             }

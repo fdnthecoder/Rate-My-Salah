@@ -10,42 +10,42 @@ import java.time.LocalDate
 class SalahRepository(
     private val salahLogDao: SalahLogDao,
     private val appSettingsDao: AppSettingsDao
-) {
+) : ISalahRepository {
     // Salah Log operations
-    suspend fun insertSalahLog(salahLog: SalahLog) {
+    override suspend fun insertSalahLog(salahLog: SalahLog) {
         salahLogDao.insertSalahLog(salahLog)
     }
-    
-    suspend fun getSalahLog(date: LocalDate, salahName: String): SalahLog? {
+
+    override suspend fun getSalahLog(date: LocalDate, salahName: String): SalahLog? {
         return salahLogDao.getSalahLog(date, salahName)
     }
-    
-    suspend fun getSalahsForDate(date: LocalDate): List<SalahLog> {
+
+    override suspend fun getSalahsForDate(date: LocalDate): List<SalahLog> {
         return salahLogDao.getSalahsForDate(date)
     }
-    
-    suspend fun getSalahsForMonth(startDate: LocalDate, endDate: LocalDate): List<SalahLog> {
+
+    override suspend fun getSalahsForMonth(startDate: LocalDate, endDate: LocalDate): List<SalahLog> {
         return salahLogDao.getSalahsForMonth(startDate, endDate)
     }
-    
-    fun getAllSalahsFlow(): Flow<List<SalahLog>> {
+
+    override fun getAllSalahsFlow(): Flow<List<SalahLog>> {
         return salahLogDao.getAllSalahsFlow()
     }
-    
-    suspend fun deleteSalahLog(salahLog: SalahLog) {
+
+    override suspend fun deleteSalahLog(salahLog: SalahLog) {
         salahLogDao.deleteSalahLog(salahLog)
     }
-    
+
     // Settings operations
-    fun getSettingsFlow(): Flow<AppSettings?> {
+    override fun getSettingsFlow(): Flow<AppSettings?> {
         return appSettingsDao.getSettingsFlow()
     }
-    
-    suspend fun getSettings(): AppSettings? {
+
+    override suspend fun getSettings(): AppSettings? {
         return appSettingsDao.getSettings()
     }
-    
-    suspend fun updateSettings(settings: AppSettings) {
+
+    override suspend fun updateSettings(settings: AppSettings) {
         appSettingsDao.updateSettings(settings)
     }
 }

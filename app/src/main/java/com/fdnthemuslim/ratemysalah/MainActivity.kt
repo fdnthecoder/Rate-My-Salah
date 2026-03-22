@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fdnthemuslim.ratemysalah.data.database.AppDatabase
 import com.fdnthemuslim.ratemysalah.data.repository.SalahRepository
+import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 import com.fdnthemuslim.ratemysalah.navigation.NavGraph
 import com.fdnthemuslim.ratemysalah.ui.theme.RateMyPrayerTheme
 import com.fdnthemuslim.ratemysalah.viewmodel.SalahViewModel
@@ -19,7 +20,7 @@ import com.fdnthemuslim.ratemysalah.viewmodel.SalahViewModelFactory
 
 class MainActivity : ComponentActivity() {
     private lateinit var database: AppDatabase
-    private lateinit var repository: SalahRepository
+    private lateinit var repository: ISalahRepository
     private lateinit var viewModel: SalahViewModel
     
     override fun onCreate(savedInstanceState: Bundle?) {

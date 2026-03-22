@@ -28,6 +28,7 @@ fun DayDetailScreen(
     var showDialog by remember { mutableStateOf(false) }
     var selectedSalah by remember { mutableStateOf("") }
     var selectedSalahLog by remember { mutableStateOf<SalahLog?>(null) }
+    val isFutureDate = selectedDate.isAfter(LocalDate.now())
     
     Scaffold(
         topBar = {
@@ -76,7 +77,6 @@ fun DayDetailScreen(
             // Salah Cards
             Constants.SALAH_NAMES.forEach { salahName ->
                 val existingLog = salahsForDate.find { it.salahName == salahName }
-                
                 SalahCard(
                     salahName = salahName,
                     salahLog = existingLog,
@@ -84,22 +84,26 @@ fun DayDetailScreen(
                         selectedSalah = salahName
                         selectedSalahLog = existingLog
                         showDialog = true
-                    }
+                    },
+                    enabled = !isFutureDate
                 )
             }
         }
         
-        if (showDialog) {
-            RatingDialog(
-                salahName = selectedSalah,
-                currentRating = selectedSalahLog?.rating,
-                currentNotes = selectedSalahLog?.notes,
-                onDismiss = { showDialog = false },
-                onSave = { rating, notes ->
-                    onSaveSalah(selectedDate, selectedSalah, rating, notes)
-                    showDialog = false
-                }
-            )
-        }
+            if (showDialog) {
+                RatingDialog(
+                    salahName = selectedSalah,
+                    currentRating = selectedSalahLog?.rating,
+                    currentNotes = selectedSalahLog?.notes,
+                    onDismiss = { showDialog = false },
+                    onSave = { rating, notes ->
+                        if (!isFutureDate) {
+                            onSaveSalah(selectedDate, selectedSalah, rating, notes)
+                        }
+                        showDialog = false
+                    },
+                    enabled = !isFutureDate
+                )
+            }
     }
 }

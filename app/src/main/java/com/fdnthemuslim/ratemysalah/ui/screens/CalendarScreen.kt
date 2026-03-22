@@ -25,10 +25,12 @@ fun CalendarScreen(
 ) {
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     
-    // Calculate salah counts per day
+    // Calculate unique salah counts per day (max 5)
     val salahCountMap = remember(salahsForMonth) {
         salahsForMonth.groupBy { it.date }
-            .mapValues { it.value.size }
+            .mapValues { entry ->
+                entry.value.map { it.salahName }.distinct().count().coerceAtMost(5)
+            }
     }
     
     LaunchedEffect(currentMonth) {
