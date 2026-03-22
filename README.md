@@ -22,6 +22,8 @@
 - 📅 View calendar with color-coded prayer completion
 - 📊 Analyze statistics and track improvement over time
 - 🌙 Support for dark mode
+- 🕒 Real-time clock to track prayer transitions
+- 🧘 Practice non-obligatory prayers with concentration tips
 
 ---
 
@@ -29,9 +31,16 @@
 
 ### 🏠 Home Screen
 - See today's date in both Gregorian and Hijri calendar
+- **Real-time clock** shows current time and prayer transition
+- **Motivational Hadith** and quotes to inspire your prayers
 - Quick access to rate all 5 prayers
 - Edit previously logged prayers
 - View notes and ratings at a glance
+
+### 🧘 Practice Screen (New!)
+- Log non-obligatory (Sunnah/Nafl) practice prayers (2 or 4 Rakat)
+- Rate your concentration and add notes
+- **Khushu Tips**: Integrated guide for improving concentration in Salah
 
 ### 📅 Calendar View
 - Monthly calendar with color-coded days:
@@ -41,6 +50,7 @@
   - ⚪ **Gray**: No prayers logged
 - Navigate between months
 - Tap any day to see detailed prayer logs
+- **Blocked future dates**: Prevents logging for dates that haven't happened yet
 
 ### 📊 Statistics
 - Overall average prayer rating
@@ -124,6 +134,13 @@ cd Rate-My-Salah
 4. Optionally add notes about your prayer experience
 5. Click **"Save"**
 
+### Practicing Salah
+1. Navigate to the **Practice** tab
+2. Tap the **+** button to log a new session
+3. Choose 2 or 4 Rakat
+4. Rate your session and add notes
+5. Read the **Khushu Tips** card for guidance
+
 ### Viewing History
 1. Go to the **Calendar** tab
 2. Browse through months using arrow buttons
@@ -133,11 +150,6 @@ cd Rate-My-Salah
 1. Go to the **Stats** tab
 2. View your overall average rating
 3. See individual prayer averages
-
-### Toggling Dark Mode
-1. Go to the **Settings** tab
-2. Toggle the dark mode switch
-3. Theme will change immediately
 
 ---
 
@@ -149,37 +161,28 @@ app/src/main/java/com/fdnthemuslim/ratemysalah/
 ├── data/
 │   ├── entity/
 │   │   ├── SalahLog.kt            # Prayer log entity
+│   │   ├── PracticeLog.kt         # Practice session entity
 │   │   └── AppSettings.kt         # App settings entity
 │   ├── dao/
 │   │   ├── SalahLogDao.kt         # Prayer log DAO
+│   │   ├── PracticeLogDao.kt      # Practice DAO
 │   │   └── AppSettingsDao.kt      # Settings DAO
 │   ├── converters/
-│   │   └── Converters.kt          # Type converters for Room
-│   ├── database/
-│   │   └── AppDatabase.kt         # Room database
-│   └── repository/
-│       └── SalahRepository.kt     # Data repository
+│   └── database/
+│       └── AppDatabase.kt         # Room database
 ├── viewmodel/
 │   ├── SalahViewModel.kt          # Main ViewModel
-│   └── SalahViewModelFactory.kt   # ViewModel factory
 ├── ui/
-│   ├── components/
-│   │   ├── SalahCard.kt           # Prayer card component
-│   │   ├── RatingDialog.kt        # Rating dialog
-│   │   ├── CalendarGrid.kt        # Calendar component
-│   │   └── BottomNavBar.kt        # Bottom navigation
+│   ├── components/                # Reusable UI components
 │   ├── screens/
-│   │   ├── HomeScreen.kt          # Home screen
-│   │   ├── CalendarScreen.kt      # Calendar screen
-│   │   ├── DayDetailScreen.kt     # Day detail screen
-│   │   ├── StatsScreen.kt         # Statistics screen
-│   │   └── SettingsScreen.kt      # Settings screen
+│   │   ├── HomeScreen.kt          # Home screen (Motivation + Clock)
+│   │   ├── PracticeScreen.kt      # Practice screen (New!)
+│   │   ├── CalendarScreen.kt      # Calendar history
+│   │   ├── StatsScreen.kt         # Analytics
+│   │   └── SettingsScreen.kt      # Preferences
 │   └── theme/                      # Material3 theme
-├── navigation/
-│   └── NavGraph.kt                # Navigation setup
-└── utils/
-    ├── Constants.kt               # App constants
-    └── DateUtils.kt               # Date utilities
+└── navigation/
+    └── NavGraph.kt                # Bottom navigation & Routes
 ```
 
 ---
@@ -190,6 +193,7 @@ Comprehensive testing manual available in [TESTING.md](TESTING.md)
 
 Quick test checklist:
 - ✅ Rate prayers and verify persistence
+- ✅ Log practice sessions and view history
 - ✅ Navigate between all screens
 - ✅ Check calendar color coding
 - ✅ Verify statistics calculations
@@ -202,12 +206,15 @@ Quick test checklist:
 
 ### Completed ✅
 - [x] Core app architecture (MVVM + Room)
-- [x] All 5 screens with navigation
+- [x] All screens with navigation
 - [x] Prayer rating and logging
 - [x] Calendar with color coding
 - [x] Statistics and averages
 - [x] Dark mode support
 - [x] Hijri calendar integration
+- [x] Real-time clock display
+- [x] Practice screen with Khushu tips
+- [x] Bug Fixes (Count logic, Future dates, Refresh states)
 
 ### Planned 🚧
 - [ ] Prayer time notifications
@@ -216,41 +223,20 @@ Quick test checklist:
 - [ ] Widgets for home screen
 - [ ] Prayer streak tracking
 - [ ] Qibla direction finder
-- [ ] Multiple language support (Arabic, Urdu, etc.)
+- [ ] Multiple language support
 - [ ] Cloud sync
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open a Pull Request**
-
-### Development Guidelines
-- Follow Kotlin coding conventions
-- Use meaningful commit messages
-- Test on multiple Android versions
-- Update documentation as needed
+Contributions are welcome! Open a Pull Request or Issue to help us improve.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ---
 
@@ -258,26 +244,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Fdn The Muslim**
 - GitHub: [@fdnthecoder](https://github.com/fdnthecoder)
-- Repository: [Rate-My-Salah](https://github.com/fdnthecoder/Rate-My-Salah)
-
----
-
-## 🙏 Acknowledgments
-
-- Allah (SWT) for guidance
-- The Muslim community for inspiration
-- Jetpack Compose team for amazing tools
-- All contributors and testers
-
----
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-1. Check [TESTING.md](TESTING.md) for troubleshooting
-2. Check [INSTALL_ON_PHONE.md](INSTALL_ON_PHONE.md) for installation help
-3. Open an issue on GitHub
-4. Contact via GitHub profile
 
 ---
 
