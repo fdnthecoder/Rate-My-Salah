@@ -53,6 +53,7 @@ class MainActivity : ComponentActivity() {
             }
             
             val isDarkMode = settings?.darkMode ?: false
+            val dayStartTime = settings?.dayStartTime ?: 20
             
             RateMyPrayerTheme(darkTheme = isDarkMode) {
                 Surface(
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
                         averageRatingBySalah = averageRatingBySalah,
                         overallAverage = overallAverage,
                         isDarkMode = isDarkMode,
+                        dayStartTime = dayStartTime,
                         onSaveSalah = { date, salahName, rating, notes ->
                             viewModel.saveSalahLog(date, salahName, rating, notes)
                         },
@@ -77,6 +79,9 @@ class MainActivity : ComponentActivity() {
                         },
                         onToggleDarkMode = {
                             viewModel.toggleDarkMode()
+                        },
+                        onUpdateDayStartTime = { hour ->
+                            viewModel.updateDayStartTime(hour)
                         }
                     )
                 }

@@ -1,13 +1,16 @@
 package com.fdnthemuslim.ratemysalah.viewmodel
 
+import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
 import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDate
 
 class FakeSalahRepository : ISalahRepository {
     val saved = mutableListOf<SalahLog>()
+    private val _settings = MutableStateFlow<AppSettings?>(AppSettings())
     override suspend fun insertSalahLog(salahLog: SalahLog) {
         // Mocking REPLACE behavior on (date, salahName)
         saved.removeIf { it.date == salahLog.date && it.salahName == salahLog.salahName }
@@ -23,7 +26,9 @@ class FakeSalahRepository : ISalahRepository {
     override suspend fun deleteSalahLog(salahLog: SalahLog) {
         saved.remove(salahLog)
     }
-    override fun getSettingsFlow(): Flow<com.fdnthemuslim.ratemysalah.data.entity.AppSettings?> = flowOf(null)
-    override suspend fun getSettings(): com.fdnthemuslim.ratemysalah.data.entity.AppSettings? = null
-    override suspend fun updateSettings(settings: com.fdnthemuslim.ratemysalah.data.entity.AppSettings) {}
+    override fun getSettingsFlow(): Flow<AppSettings?> = _settings
+    override suspend fun getSettings(): AppSettings? = _settings.value
+    override suspend fun updateSettings(settings: AppSettings) {
+        _settings.value = settings
+    }
 }

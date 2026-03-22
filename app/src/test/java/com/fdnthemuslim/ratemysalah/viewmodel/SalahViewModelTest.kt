@@ -1,6 +1,7 @@
 package com.fdnthemuslim.ratemysalah.viewmodel
 
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.utils.DateUtils
 import com.fdnthemuslim.ratemysalah.viewmodel.FakeSalahRepository
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,11 @@ class SalahViewModelTest {
     fun `cannot save salah log for future date`() = runTest {
         val repo = FakeSalahRepository()
         val vm = SalahViewModel(repo)
-        val futureDate = LocalDate.now().plusDays(1)
+        this.advanceUntilIdle()
+        
+        val currentIslamicDay = DateUtils.getIslamicDay(LocalDateTime.now(), 20)
+        val futureDate = currentIslamicDay.plusDays(1)
+        
         vm.saveSalahLog(futureDate, "Fajr", 8, "Test")
         this.advanceUntilIdle()
         assertEquals(0, repo.saved.size)
@@ -42,7 +47,9 @@ class SalahViewModelTest {
     fun `can save salah log for today and updates todaySalahs flow`() = runTest {
         val repo = FakeSalahRepository()
         val vm = SalahViewModel(repo)
-        val today = LocalDate.now()
+        this.advanceUntilIdle()
+        
+        val today = DateUtils.getIslamicDay(LocalDateTime.now(), 20)
         vm.saveSalahLog(today, "Fajr", 8, "Test")
         this.advanceUntilIdle()
         

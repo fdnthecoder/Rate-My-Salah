@@ -25,10 +25,12 @@ fun NavGraph(
     averageRatingBySalah: Map<String, Double>,
     overallAverage: Double,
     isDarkMode: Boolean,
+    dayStartTime: Int,
     onSaveSalah: (LocalDate, String, Int, String?) -> Unit,
     onLoadSalahsForDate: (LocalDate) -> Unit,
     onLoadSalahsForMonth: (YearMonth) -> Unit,
-    onToggleDarkMode: () -> Unit
+    onToggleDarkMode: () -> Unit,
+    onUpdateDayStartTime: (Int) -> Unit
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -61,7 +63,8 @@ fun NavGraph(
             composable("home") {
                 HomeScreen(
                     todaySalahs = todaySalahs,
-                    onSaveSalah = onSaveSalah
+                    onSaveSalah = onSaveSalah,
+                    dayStartTime = dayStartTime
                 )
             }
             
@@ -104,7 +107,9 @@ fun NavGraph(
             composable("settings") {
                 SettingsScreen(
                     isDarkMode = isDarkMode,
-                    onToggleDarkMode = onToggleDarkMode
+                    onToggleDarkMode = onToggleDarkMode,
+                    dayStartTime = dayStartTime,
+                    onUpdateDayStartTime = onUpdateDayStartTime
                 )
             }
         }

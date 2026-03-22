@@ -6,6 +6,7 @@ import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
 import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 import com.fdnthemuslim.ratemysalah.utils.Constants
+import com.fdnthemuslim.ratemysalah.utils.DateUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,15 +32,27 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
     val settings: StateFlow<AppSettings?> = _settings.asStateFlow()
     
     init {
-        loadTodaySalahs()
+        viewModelScope.launch {
+            repository.getSettingsFlow().collect { settings ->
+                val newSettings = settings ?: AppSettings()
+                val oldStartTime = _settings.value?.dayStartTime
+                _settings.value = newSettings
+                
+                // If this is the first load or start time changed, reload logs
+                if (oldStartTime != newSettings.dayStartTime) {
+                    loadTodaySalahs()
+                }
+            }
+        }
         loadAllSalahs()
-        loadSettings()
     }
     
     // Salah operations
     fun loadTodaySalahs() {
         viewModelScope.launch {
-            val salahs = repository.getSalahsForDate(LocalDate.now())
+            val startHour = _settings.value?.dayStartTime ?: 20
+            val today = DateUtils.getIslamicDay(LocalDateTime.now(), startHour)
+            val salahs = repository.getSalahsForDate(today)
             _salahsForToday.value = salahs
         }
     }
@@ -69,7 +82,9 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
     }
     
     fun saveSalahLog(date: LocalDate, salahName: String, rating: Int, notes: String?) {
-        if (date.isAfter(LocalDate.now())) return // Block saving for future dates
+        val startHour = _settings.value?.dayStartTime ?: 20
+        val currentIslamicDay = DateUtils.getIslamicDay(LocalDateTime.now(), startHour)
+        if (date.isAfter(currentIslamicDay)) return // Block saving for future dates
         viewModelScope.launch {
             val salahLog = SalahLog(
                 date = date,
@@ -98,12 +113,11 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
         }
     }
     
-    // Settings operations
-    fun loadSettings() {
+    fun updateDayStartTime(hour: Int) {
         viewModelScope.launch {
-            repository.getSettingsFlow().collect { settings ->
-                _settings.value = settings ?: AppSettings()
-            }
+            val currentSettings = _settings.value ?: AppSettings()
+            val newSettings = currentSettings.copy(dayStartTime = hour)
+            repository.updateSettings(newSettings)
         }
     }
     

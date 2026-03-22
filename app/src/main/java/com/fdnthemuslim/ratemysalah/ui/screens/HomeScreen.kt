@@ -13,17 +13,23 @@ import com.fdnthemuslim.ratemysalah.ui.components.SalahCard
 import com.fdnthemuslim.ratemysalah.utils.Constants
 import com.fdnthemuslim.ratemysalah.utils.DateUtils
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     todaySalahs: List<SalahLog>,
     onSaveSalah: (LocalDate, String, Int, String?) -> Unit,
+    dayStartTime: Int,
     modifier: Modifier = Modifier
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var selectedSalah by remember { mutableStateOf("") }
     var selectedSalahLog by remember { mutableStateOf<SalahLog?>(null) }
+    
+    val currentIslamicDay = remember(dayStartTime) {
+        DateUtils.getIslamicDay(LocalDateTime.now(), dayStartTime)
+    }
     
     Scaffold(
         topBar = {
@@ -32,7 +38,7 @@ fun HomeScreen(
                     Column {
                         Text("Today's Prayers")
                         Text(
-                            text = DateUtils.getGregorianDateFormatted(LocalDate.now()),
+                            text = DateUtils.getGregorianDateFormatted(currentIslamicDay),
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -55,11 +61,17 @@ fun HomeScreen(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
             ) {
-                Text(
-                    text = DateUtils.getHijriDate(LocalDate.now()),
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = DateUtils.getHijriDate(currentIslamicDay),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = "Islamic day starts at ${DateUtils.formatHour(dayStartTime)}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
+                    )
+                }
             }
             
             Spacer(modifier = Modifier.height(8.dp))
@@ -87,7 +99,7 @@ fun HomeScreen(
                 currentNotes = selectedSalahLog?.notes,
                 onDismiss = { showDialog = false },
                 onSave = { rating, notes ->
-                    onSaveSalah(LocalDate.now(), selectedSalah, rating, notes)
+                    onSaveSalah(currentIslamicDay, selectedSalah, rating, notes)
                     showDialog = false
                 }
             )
