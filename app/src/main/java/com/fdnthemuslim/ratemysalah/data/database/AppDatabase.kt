@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.fdnthemuslim.ratemysalah.data.converters.Converters
 import com.fdnthemuslim.ratemysalah.data.dao.AppSettingsDao
 import com.fdnthemuslim.ratemysalah.data.dao.SalahLogDao
@@ -28,6 +30,22 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
         
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Create the new practice_logs table without affecting existing tables
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS `practice_logs` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                        `date` TEXT NOT NULL, 
+                        `rakat` INTEGER NOT NULL, 
+                        `rating` INTEGER NOT NULL, 
+                        `notes` TEXT, 
+                        `loggedAt` TEXT NOT NULL
+                    )
+                """.trimIndent())
+            }
+        }
+        
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -35,7 +53,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "rate_my_prayer_database"
                 )
-                .fallbackToDestructiveMigration()
+                .addMigrations(MIGRATION_1_2)
                 .build()
                 INSTANCE = instance
                 instance
