@@ -1,26 +1,15 @@
-# Release Notes - Rate My Salah
+# Release Notes - Bug Fix Release
 
-## v0.4.0 (2026-03-21) - Islamic Day Boundary & User Settings
-- **Islamic Day Logic**: Implemented "Islamic day" logic where the day transitions at a configurable time (default 8 PM CT).
-- **Customizable Day Start**: Added a setting for users to adjust when the Islamic day begins using a 24-hour slider.
-- **Dynamic UI**: HomeScreen now displays the current Islamic day date and the effective start time at the top.
-- **Improved Reactivity**: ViewModel now correctly reloads data whenever the day start time is changed.
-- **Unit Testing**: Added `DateUtilsTest` to verify day boundary calculations and updated `SalahViewModelTest` to align with the new logic.
+## [v1.0.1] - Task 1 & 2 Complete
 
-## v0.3.0 (2026-03-21) - UI State & Data Integrity
-- **Instant UI Updates**: Fixed an issue where the SalahCard button label ("Rate" vs "Edit") would not update immediately after saving.
-- **Data Constraints**: Enforced unique logs per prayer per day at the database level using a unique index.
-- **ViewModel Refresh**: Enhanced ViewModel to refresh all relevant state flows (today, selected date, month) after any save or delete operation.
-- **Mock Repository**: Improved `FakeSalahRepository` to better simulate real database behavior in tests.
+### Fixed
+- **Prayer Count & Color Logic (Task 1):** The calendar now correctly counts only unique prayers per day (max 5). This ensures that multiple logs for the same prayer (e.g., updating a rating) don't inflate the count and break the color coding.
+- **Future Date Blocking (Task 2):** Users are now prevented from logging or editing prayers for future dates. 
+    - Future dates in the calendar are visually dimmed and non-clickable.
+    - The "Rate" button is disabled on the Day Detail screen for future dates.
+    - The ViewModel strictly blocks any save attempts for dates beyond today.
 
-## v0.2.0 (2026-03-21) - Calendar & Month View
-- **Calendar Screen**: Added a monthly calendar view to visualize prayer consistency.
-- **Consistency Indicators**: Implemented color-coded indicators (Green, Yellow, Red) on the calendar based on the number of prayers logged per day.
-- **Day Details**: Enabled navigating to a specific day from the calendar to view or edit logs.
-
-## v0.1.0 (2026-03-21) - MVP Release
-- **Core Functionality**: Ability to rate the five daily prayers on a scale of 1-10 with optional notes.
-- **Home Screen**: View today's prayer status at a glance.
-- **Local Storage**: All data is stored locally using Room database.
-- **Statistics**: Basic statistics showing average ratings per prayer.
-- **Settings**: Initial support for Dark Mode.
+### Technical Changes
+- Added unique index on `(date, salahName)` in the database to prevent duplicate entries.
+- Updated `SalahViewModel` to reload state immediately after saving, ensuring the UI stays in sync.
+- Added comprehensive unit tests for date validation and update logic.

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,9 +11,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.data.entity.PracticeLog
 import com.fdnthemuslim.ratemysalah.ui.components.BottomNavBar
 import com.fdnthemuslim.ratemysalah.ui.screens.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.YearMonth
 
 @Composable
@@ -22,15 +23,16 @@ fun NavGraph(
     todaySalahs: List<SalahLog>,
     salahsForSelectedDate: List<SalahLog>,
     salahsForMonth: List<SalahLog>,
+    practiceLogs: List<PracticeLog>,
+    currentTime: LocalDateTime,
     averageRatingBySalah: Map<String, Double>,
     overallAverage: Double,
     isDarkMode: Boolean,
-    dayStartTime: Int,
     onSaveSalah: (LocalDate, String, Int, String?) -> Unit,
+    onSavePractice: (Int, Int, String?) -> Unit,
     onLoadSalahsForDate: (LocalDate) -> Unit,
     onLoadSalahsForMonth: (YearMonth) -> Unit,
-    onToggleDarkMode: () -> Unit,
-    onUpdateDayStartTime: (Int) -> Unit
+    onToggleDarkMode: () -> Unit
 ) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -63,8 +65,15 @@ fun NavGraph(
             composable("home") {
                 HomeScreen(
                     todaySalahs = todaySalahs,
-                    onSaveSalah = onSaveSalah,
-                    dayStartTime = dayStartTime
+                    currentTime = currentTime,
+                    onSaveSalah = onSaveSalah
+                )
+            }
+            
+            composable("practice") {
+                PracticeScreen(
+                    practiceLogs = practiceLogs,
+                    onSavePractice = onSavePractice
                 )
             }
             
@@ -107,9 +116,7 @@ fun NavGraph(
             composable("settings") {
                 SettingsScreen(
                     isDarkMode = isDarkMode,
-                    onToggleDarkMode = onToggleDarkMode,
-                    dayStartTime = dayStartTime,
-                    onUpdateDayStartTime = onUpdateDayStartTime
+                    onToggleDarkMode = onToggleDarkMode
                 )
             }
         }

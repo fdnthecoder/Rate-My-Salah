@@ -12,6 +12,7 @@ sealed class BottomNavItem(
     val label: String
 ) {
     object Home : BottomNavItem("home", Icons.Default.Home, "Home")
+    object Practice : BottomNavItem("practice", Icons.Default.Star, "Practice")
     object Calendar : BottomNavItem("calendar", Icons.Default.DateRange, "Calendar")
     object Stats : BottomNavItem("stats", Icons.Default.BarChart, "Stats")
     object Settings : BottomNavItem("settings", Icons.Default.Settings, "Settings")
@@ -25,6 +26,7 @@ fun BottomNavBar(
     NavigationBar {
         val items = listOf(
             BottomNavItem.Home,
+            BottomNavItem.Practice,
             BottomNavItem.Calendar,
             BottomNavItem.Stats,
             BottomNavItem.Settings

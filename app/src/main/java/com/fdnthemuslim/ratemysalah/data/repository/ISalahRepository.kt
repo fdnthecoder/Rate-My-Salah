@@ -2,6 +2,7 @@ package com.fdnthemuslim.ratemysalah.data.repository
 
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.data.entity.PracticeLog
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
@@ -12,6 +13,13 @@ interface ISalahRepository {
     suspend fun getSalahsForMonth(startDate: LocalDate, endDate: LocalDate): List<SalahLog>
     fun getAllSalahsFlow(): Flow<List<SalahLog>>
     suspend fun deleteSalahLog(salahLog: SalahLog)
+    
+    // Practice operations
+    suspend fun insertPracticeLog(practiceLog: PracticeLog)
+    fun getPracticeLogsForDate(date: LocalDate): Flow<List<PracticeLog>>
+    fun getAllPracticeLogs(): Flow<List<PracticeLog>>
+    suspend fun deletePracticeLog(practiceLog: PracticeLog)
+    
     fun getSettingsFlow(): Flow<AppSettings?>
     suspend fun getSettings(): AppSettings?
     suspend fun updateSettings(settings: AppSettings)

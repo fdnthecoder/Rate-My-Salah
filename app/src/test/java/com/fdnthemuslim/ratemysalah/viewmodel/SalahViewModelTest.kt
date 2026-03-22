@@ -1,8 +1,6 @@
 package com.fdnthemuslim.ratemysalah.viewmodel
 
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
-import com.fdnthemuslim.ratemysalah.utils.DateUtils
-import com.fdnthemuslim.ratemysalah.viewmodel.FakeSalahRepository
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -35,8 +33,7 @@ class SalahViewModelTest {
         val vm = SalahViewModel(repo)
         this.advanceUntilIdle()
         
-        val currentIslamicDay = DateUtils.getIslamicDay(LocalDateTime.now(), 20)
-        val futureDate = currentIslamicDay.plusDays(1)
+        val futureDate = LocalDate.now().plusDays(1)
         
         vm.saveSalahLog(futureDate, "Fajr", 8, "Test")
         this.advanceUntilIdle()
@@ -49,7 +46,7 @@ class SalahViewModelTest {
         val vm = SalahViewModel(repo)
         this.advanceUntilIdle()
         
-        val today = DateUtils.getIslamicDay(LocalDateTime.now(), 20)
+        val today = LocalDate.now()
         vm.saveSalahLog(today, "Fajr", 8, "Test")
         this.advanceUntilIdle()
         
@@ -76,5 +73,26 @@ class SalahViewModelTest {
         assertEquals(1, vm.salahsForSelectedDate.value.size)
         assertEquals("Asr", vm.salahsForSelectedDate.value[0].salahName)
         assertEquals(1, vm.salahsForMonth.value.size)
+    }
+
+    @Test
+    fun `updates existing log instead of creating new one for same date and name`() = runTest {
+        val repo = FakeSalahRepository()
+        val vm = SalahViewModel(repo)
+        val today = LocalDate.now()
+        
+        vm.saveSalahLog(today, "Fajr", 8, "Initial")
+        this.advanceUntilIdle()
+        assertEquals(1, repo.saved.size)
+        assertEquals(8, repo.saved[0].rating)
+        
+        vm.saveSalahLog(today, "Fajr", 9, "Updated")
+        this.advanceUntilIdle()
+        
+        // Should still be only 1 entry in repo.saved because FakeSalahRepository should handle updates
+        // Note: FakeSalahRepository implementation needs to support this for the test to be valid
+        assertEquals(1, repo.saved.size)
+        assertEquals(9, repo.saved[0].rating)
+        assertEquals("Updated", repo.saved[0].notes)
     }
 }

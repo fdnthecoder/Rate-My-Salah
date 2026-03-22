@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class AppSettings(
     @PrimaryKey 
     val id: Int = 1,
-    val darkMode: Boolean = false,
-    val dayStartTime: Int = 20 // 24-hour format, e.g., 20 for 8 PM
+    val darkMode: Boolean = false
 )

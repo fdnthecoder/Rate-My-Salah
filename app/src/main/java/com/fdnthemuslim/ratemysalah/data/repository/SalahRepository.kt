@@ -2,14 +2,17 @@ package com.fdnthemuslim.ratemysalah.data.repository
 
 import com.fdnthemuslim.ratemysalah.data.dao.AppSettingsDao
 import com.fdnthemuslim.ratemysalah.data.dao.SalahLogDao
+import com.fdnthemuslim.ratemysalah.data.dao.PracticeLogDao
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.data.entity.PracticeLog
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 class SalahRepository(
     private val salahLogDao: SalahLogDao,
-    private val appSettingsDao: AppSettingsDao
+    private val appSettingsDao: AppSettingsDao,
+    private val practiceLogDao: PracticeLogDao
 ) : ISalahRepository {
     // Salah Log operations
     override suspend fun insertSalahLog(salahLog: SalahLog) {
@@ -34,6 +37,23 @@ class SalahRepository(
 
     override suspend fun deleteSalahLog(salahLog: SalahLog) {
         salahLogDao.deleteSalahLog(salahLog)
+    }
+
+    // Practice operations
+    override suspend fun insertPracticeLog(practiceLog: PracticeLog) {
+        practiceLogDao.insertPracticeLog(practiceLog)
+    }
+
+    override fun getPracticeLogsForDate(date: LocalDate): Flow<List<PracticeLog>> {
+        return practiceLogDao.getPracticeLogsForDate(date)
+    }
+
+    override fun getAllPracticeLogs(): Flow<List<PracticeLog>> {
+        return practiceLogDao.getAllPracticeLogs()
+    }
+
+    override suspend fun deletePracticeLog(practiceLog: PracticeLog) {
+        practiceLogDao.deletePracticeLog(practiceLog)
     }
 
     // Settings operations

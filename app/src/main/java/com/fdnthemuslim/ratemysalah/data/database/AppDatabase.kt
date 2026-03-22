@@ -8,18 +8,21 @@ import androidx.room.TypeConverters
 import com.fdnthemuslim.ratemysalah.data.converters.Converters
 import com.fdnthemuslim.ratemysalah.data.dao.AppSettingsDao
 import com.fdnthemuslim.ratemysalah.data.dao.SalahLogDao
+import com.fdnthemuslim.ratemysalah.data.dao.PracticeLogDao
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.data.entity.PracticeLog
 
 @Database(
-    entities = [SalahLog::class, AppSettings::class],
-    version = 1,
+    entities = [SalahLog::class, AppSettings::class, PracticeLog::class],
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun salahLogDao(): SalahLogDao
     abstract fun appSettingsDao(): AppSettingsDao
+    abstract fun practiceLogDao(): PracticeLogDao
     
     companion object {
         @Volatile
@@ -31,7 +34,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "rate_my_prayer_database"
-                ).build()
+                )
+                .fallbackToDestructiveMigration()
+                .build()
                 INSTANCE = instance
                 instance
             }

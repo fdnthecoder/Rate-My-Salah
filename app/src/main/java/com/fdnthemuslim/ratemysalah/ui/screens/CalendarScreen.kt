@@ -29,7 +29,7 @@ fun CalendarScreen(
     val salahCountMap = remember(salahsForMonth) {
         salahsForMonth.groupBy { it.date }
             .mapValues { entry ->
-                entry.value.map { it.salahName }.distinct().count().coerceAtMost(5)
+                entry.value.map { it.salahName }.distinct().size.coerceAtMost(5)
             }
     }
     

@@ -17,8 +17,8 @@ fun HomeScreenPreview() {
     RateMyPrayerTheme {
         HomeScreen(
             todaySalahs = mockSalahs,
-            onSaveSalah = { _, _, _, _ -> },
-            dayStartTime = 20
+            currentTime = LocalDateTime.now(),
+            onSaveSalah = { _, _, _, _ -> }
         )
     }
 }
@@ -47,9 +47,7 @@ fun SettingsScreenPreview() {
     RateMyPrayerTheme {
         SettingsScreen(
             isDarkMode = false,
-            onToggleDarkMode = {},
-            dayStartTime = 20,
-            onUpdateDayStartTime = {}
+            onToggleDarkMode = {}
         )
     }
 }

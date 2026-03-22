@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fdnthemuslim.ratemysalah.data.entity.AppSettings
 import com.fdnthemuslim.ratemysalah.data.entity.SalahLog
+import com.fdnthemuslim.ratemysalah.data.entity.PracticeLog
 import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
 import com.fdnthemuslim.ratemysalah.utils.Constants
-import com.fdnthemuslim.ratemysalah.utils.DateUtils
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,30 +29,49 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
     private val _allSalahs = MutableStateFlow<List<SalahLog>>(emptyList())
     val allSalahs: StateFlow<List<SalahLog>> = _allSalahs.asStateFlow()
     
+    private val _practiceLogs = MutableStateFlow<List<PracticeLog>>(emptyList())
+    val practiceLogs: StateFlow<List<PracticeLog>> = _practiceLogs.asStateFlow()
+    
     private val _settings = MutableStateFlow<AppSettings?>(null)
     val settings: StateFlow<AppSettings?> = _settings.asStateFlow()
+    
+    private val _currentTime = MutableStateFlow(LocalDateTime.now())
+    val currentTime: StateFlow<LocalDateTime> = _currentTime.asStateFlow()
     
     init {
         viewModelScope.launch {
             repository.getSettingsFlow().collect { settings ->
-                val newSettings = settings ?: AppSettings()
-                val oldStartTime = _settings.value?.dayStartTime
-                _settings.value = newSettings
-                
-                // If this is the first load or start time changed, reload logs
-                if (oldStartTime != newSettings.dayStartTime) {
-                    loadTodaySalahs()
-                }
+                _settings.value = settings ?: AppSettings()
+                loadTodaySalahs()
             }
         }
         loadAllSalahs()
+        loadPracticeLogs()
+        startClock()
+    }
+    
+    private fun startClock() {
+        viewModelScope.launch {
+            var lastDate = _currentTime.value.toLocalDate()
+            while (true) {
+                val now = LocalDateTime.now()
+                _currentTime.value = now
+                
+                // If the day has changed, reload today's prayers
+                if (now.toLocalDate() != lastDate) {
+                    lastDate = now.toLocalDate()
+                    loadTodaySalahs()
+                }
+                
+                delay(1000)
+            }
+        }
     }
     
     // Salah operations
     fun loadTodaySalahs() {
         viewModelScope.launch {
-            val startHour = _settings.value?.dayStartTime ?: 20
-            val today = DateUtils.getIslamicDay(LocalDateTime.now(), startHour)
+            val today = LocalDate.now()
             val salahs = repository.getSalahsForDate(today)
             _salahsForToday.value = salahs
         }
@@ -82,11 +102,16 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
     }
     
     fun saveSalahLog(date: LocalDate, salahName: String, rating: Int, notes: String?) {
-        val startHour = _settings.value?.dayStartTime ?: 20
-        val currentIslamicDay = DateUtils.getIslamicDay(LocalDateTime.now(), startHour)
-        if (date.isAfter(currentIslamicDay)) return // Block saving for future dates
+        val today = LocalDate.now()
+        if (date.isAfter(today)) return // Block saving for future dates
+        
         viewModelScope.launch {
+            // Find existing log to update if it exists
+            val existingLogs = repository.getSalahsForDate(date)
+            val existingLog = existingLogs.find { it.salahName == salahName }
+            
             val salahLog = SalahLog(
+                id = existingLog?.id ?: 0, // Keep same ID if updating
                 date = date,
                 salahName = salahName,
                 rating = rating,
@@ -95,10 +120,17 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
             )
             repository.insertSalahLog(salahLog)
             
-            // Reload relevant states immediately to ensure UI update
-            loadTodaySalahs()
-            loadSalahsForDate(date)
-            loadSalahsForMonth(date)
+            // Reload all relevant states IN THE SAME COROUTINE to ensure UI update
+            val updatedToday = repository.getSalahsForDate(today)
+            _salahsForToday.value = updatedToday
+            
+            val updatedSelected = repository.getSalahsForDate(date)
+            _salahsForSelectedDate.value = updatedSelected
+            
+            val startDate = date.withDayOfMonth(1)
+            val endDate = date.withDayOfMonth(date.lengthOfMonth())
+            val updatedMonth = repository.getSalahsForMonth(startDate, endDate)
+            _salahsForMonth.value = updatedMonth
         }
     }
     
@@ -113,11 +145,25 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
         }
     }
     
-    fun updateDayStartTime(hour: Int) {
+    // Practice operations
+    fun loadPracticeLogs() {
         viewModelScope.launch {
-            val currentSettings = _settings.value ?: AppSettings()
-            val newSettings = currentSettings.copy(dayStartTime = hour)
-            repository.updateSettings(newSettings)
+            repository.getAllPracticeLogs().collect { logs ->
+                _practiceLogs.value = logs
+            }
+        }
+    }
+    
+    fun savePracticeLog(rakat: Int, rating: Int, notes: String?) {
+        viewModelScope.launch {
+            val practiceLog = PracticeLog(
+                date = LocalDate.now(),
+                rakat = rakat,
+                rating = rating,
+                notes = notes,
+                loggedAt = LocalDateTime.now()
+            )
+            repository.insertPracticeLog(practiceLog)
         }
     }
     
@@ -143,9 +189,5 @@ class SalahViewModel(private val repository: ISalahRepository) : ViewModel() {
         val salahs = _allSalahs.value
         return if (salahs.isEmpty()) 0.0
         else salahs.map { it.rating }.average()
-    }
-    
-    fun getSalahCountForDate(date: LocalDate): Int {
-        return _salahsForMonth.value.count { it.date == date }
     }
 }

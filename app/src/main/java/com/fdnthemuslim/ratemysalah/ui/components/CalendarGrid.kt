@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -62,11 +63,13 @@ fun CalendarGrid(
         ) {
             items(calendarDays) { date ->
                 if (date != null) {
+                    val isFuture = date.isAfter(LocalDate.now())
                     CalendarDay(
                         date = date,
                         salahCount = salahCountMap[date] ?: 0,
                         isToday = date == LocalDate.now(),
-                        onClick = { onDateClick(date) }
+                        isFuture = isFuture,
+                        onClick = { if (!isFuture) onDateClick(date) }
                     )
                 } else {
                     Box(modifier = Modifier.aspectRatio(1f))
@@ -81,6 +84,7 @@ private fun CalendarDay(
     date: LocalDate,
     salahCount: Int,
     isToday: Boolean,
+    isFuture: Boolean,
     onClick: () -> Unit
 ) {
     val backgroundColor = when (salahCount) {
@@ -94,11 +98,12 @@ private fun CalendarDay(
         modifier = Modifier
             .aspectRatio(1f)
             .padding(2.dp)
+            .alpha(if (isFuture) 0.5f else 1f)
             .background(
                 color = backgroundColor.copy(alpha = 0.3f),
                 shape = MaterialTheme.shapes.small
             )
-            .clickable(onClick = onClick),
+            .clickable(enabled = !isFuture, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Column(

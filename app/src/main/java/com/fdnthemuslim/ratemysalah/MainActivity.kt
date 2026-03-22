@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fdnthemuslim.ratemysalah.data.database.AppDatabase
 import com.fdnthemuslim.ratemysalah.data.repository.SalahRepository
 import com.fdnthemuslim.ratemysalah.data.repository.ISalahRepository
@@ -17,6 +16,7 @@ import com.fdnthemuslim.ratemysalah.navigation.NavGraph
 import com.fdnthemuslim.ratemysalah.ui.theme.RateMyPrayerTheme
 import com.fdnthemuslim.ratemysalah.viewmodel.SalahViewModel
 import com.fdnthemuslim.ratemysalah.viewmodel.SalahViewModelFactory
+import java.time.LocalDateTime
 
 class MainActivity : ComponentActivity() {
     private lateinit var database: AppDatabase
@@ -30,7 +30,8 @@ class MainActivity : ComponentActivity() {
         database = AppDatabase.getDatabase(applicationContext)
         repository = SalahRepository(
             salahLogDao = database.salahLogDao(),
-            appSettingsDao = database.appSettingsDao()
+            appSettingsDao = database.appSettingsDao(),
+            practiceLogDao = database.practiceLogDao()
         )
         
         // Create ViewModel with factory
@@ -42,7 +43,9 @@ class MainActivity : ComponentActivity() {
             val todaySalahs by viewModel.salahsForToday.collectAsState()
             val salahsForSelectedDate by viewModel.salahsForSelectedDate.collectAsState()
             val salahsForMonth by viewModel.salahsForMonth.collectAsState()
+            val practiceLogs by viewModel.practiceLogs.collectAsState()
             val settings by viewModel.settings.collectAsState()
+            val currentTime by viewModel.currentTime.collectAsState()
             
             // Calculate stats
             val averageRatingBySalah = remember(todaySalahs, salahsForMonth) {
@@ -53,7 +56,6 @@ class MainActivity : ComponentActivity() {
             }
             
             val isDarkMode = settings?.darkMode ?: false
-            val dayStartTime = settings?.dayStartTime ?: 20
             
             RateMyPrayerTheme(darkTheme = isDarkMode) {
                 Surface(
@@ -64,12 +66,16 @@ class MainActivity : ComponentActivity() {
                         todaySalahs = todaySalahs,
                         salahsForSelectedDate = salahsForSelectedDate,
                         salahsForMonth = salahsForMonth,
+                        practiceLogs = practiceLogs,
+                        currentTime = currentTime,
                         averageRatingBySalah = averageRatingBySalah,
                         overallAverage = overallAverage,
                         isDarkMode = isDarkMode,
-                        dayStartTime = dayStartTime,
                         onSaveSalah = { date, salahName, rating, notes ->
                             viewModel.saveSalahLog(date, salahName, rating, notes)
+                        },
+                        onSavePractice = { rakat, rating, notes ->
+                            viewModel.savePracticeLog(rakat, rating, notes)
                         },
                         onLoadSalahsForDate = { date ->
                             viewModel.loadSalahsForDate(date)
@@ -79,9 +85,6 @@ class MainActivity : ComponentActivity() {
                         },
                         onToggleDarkMode = {
                             viewModel.toggleDarkMode()
-                        },
-                        onUpdateDayStartTime = { hour ->
-                            viewModel.updateDayStartTime(hour)
                         }
                     )
                 }
